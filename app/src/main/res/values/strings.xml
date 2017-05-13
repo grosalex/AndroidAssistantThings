@@ -2,5 +2,5 @@
     <string name="app_name">AndroidAssistantThings</string>
 
     <string name="weather_api_key">91e164a7c6f461910437dadb9e8a5ce5</string>
-    <string name="today_weather">Today Weather :</string>
+    <string name="today_weather">Météo du jours :</string>
 </resources>
