@@ -58,8 +58,8 @@ public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.ViewHolder
         Picasso.with(mContext).load("http://openweathermap.org/img/w/"+datas.get(position).getIcon()+".png").into(holder.icon);
 
         Date d = new Date(datas.get(position).getDt()*1000);
-        SimpleDateFormat sdfd = new SimpleDateFormat("dd-MM"); // the format of your date
-        SimpleDateFormat sdfh = new SimpleDateFormat("HH:mm"); // the format of your date
+        SimpleDateFormat sdfd = new SimpleDateFormat(""); // the format of your date
+        SimpleDateFormat sdfh = new SimpleDateFormat("dd/MM HH:mm"); // the format of your date
         sdfh.setTimeZone(TimeZone.getTimeZone("GMT+4")); // give a timezone reference for formating (see comment at the bottom
         String formattedDate = sdfh.format(d);
         holder.hoursTextView.setText(formattedDate);

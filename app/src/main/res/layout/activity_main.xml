@@ -21,10 +21,10 @@
         android:layout_marginLeft="16dp"
         app:layout_constraintLeft_toLeftOf="parent" />
     <ImageView
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
         android:id="@+id/weather_icon"
-        android:scaleType="centerInside"
+        android:scaleType="fitXY"
         app:layout_constraintLeft_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title"
         android:layout_marginLeft="16dp"

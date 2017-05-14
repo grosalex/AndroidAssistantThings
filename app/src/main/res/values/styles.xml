@@ -11,7 +11,7 @@
         <item name="android:textColor">@color/colorPrimary_light</item>
     </style>
     <style name="CardTextview" parent="android:TextAppearance.Widget.TextView">
-        <item name="android:textSize">48sp</item>
+        <item name="android:textSize">40sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/primary_text</item>
     </style>

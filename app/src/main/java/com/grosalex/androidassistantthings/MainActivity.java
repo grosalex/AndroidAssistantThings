@@ -2,6 +2,7 @@ package com.grosalex.androidassistantthings;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -32,6 +33,7 @@ public class MainActivity extends Activity {
     private HourlyAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
     private ImageView icon;
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +54,26 @@ public class MainActivity extends Activity {
 
         // specify an adapter (see also next example)
         hourlyWeatherArrayList= new ArrayList<HourlyWeather>();
+        mHandler = new Handler();
 
         mAdapter = new HourlyAdapter(this,hourlyWeatherArrayList);
         hourlyRecycler.setAdapter(mAdapter);
         fetchTodaysWeather();
         fetchNextDaysWeather();
+        update();
     }
 
+
+    private void update(){
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                fetchTodaysWeather();
+                fetchNextDaysWeather();
+                update();
+            }
+        },3600000);
+    }
     private void fetchNextDaysWeather() {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url ="http://api.openweathermap.org/data/2.5/forecast?q=Paris,fr&units=metric&lang=fr&APPID="+getString(R.string.weather_api_key);
@@ -102,7 +117,7 @@ public class MainActivity extends Activity {
                         Log.d(TAG, "onResponse: " +response.toString());
                         try {
                             weather.setText(response.getJSONArray("weather").getJSONObject(0).getString("description"));
-                            temperature.setText(response.getJSONObject("main").getDouble("temp")+ " C°");
+                            temperature.setText(response.getJSONObject("main").getDouble("temp_min")+ " C° - " + response.getJSONObject("main").getDouble("temp_max")+ " C°");
                             Picasso.with(getApplicationContext()).load("http://openweathermap.org/img/w/"+response.getJSONArray("weather").getJSONObject(0).getString("icon")+".png").into(icon);
                         } catch (JSONException e) {
                             e.printStackTrace();
