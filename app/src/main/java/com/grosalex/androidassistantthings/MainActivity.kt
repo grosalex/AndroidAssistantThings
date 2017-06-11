@@ -45,22 +45,22 @@ class MainActivity : Activity() {
         temperature = findViewById(R.id.temperature) as TextView
         icon = findViewById(R.id.weather_icon) as ImageView
         hourlyRecycler = findViewById(R.id.hourly_recycler) as RecyclerView
-        hourlyRecycler!!.setHasFixedSize(true)
+        hourlyRecycler?.setHasFixedSize(true)
 
         textClock = findViewById(R.id.textClock) as TextClock
-        textClock!!.format24Hour = "E d MMM HH:mm"
-        textClock!!.format12Hour = null
+        textClock?.format24Hour = "E d MMM HH:mm"
+        textClock?.format12Hour = null
 
         // use a linear layout manager
         mLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        hourlyRecycler!!.layoutManager = mLayoutManager
+        hourlyRecycler?.layoutManager = mLayoutManager
 
         // specify an adapter (see also next example)
         hourlyWeatherArrayList = ArrayList<HourlyWeather>()
         mHandler = Handler()
 
-        mAdapter = HourlyAdapter(this, hourlyWeatherArrayList!!)
-        hourlyRecycler!!.adapter = mAdapter
+        mAdapter = HourlyAdapter(this, hourlyWeatherArrayList as ArrayList<HourlyWeather>)
+        hourlyRecycler?.adapter = mAdapter
         fetchTodaysWeather()
         fetchNextDaysWeather()
         update()
@@ -68,8 +68,8 @@ class MainActivity : Activity() {
 
 
     private fun update() {
-        mHandler!!.postDelayed({
-            hourlyWeatherArrayList!!.clear()
+        mHandler?.postDelayed({
+            hourlyWeatherArrayList?.clear()
             fetchTodaysWeather()
             fetchNextDaysWeather()
             update()
@@ -82,13 +82,13 @@ class MainActivity : Activity() {
         val jsObjRequest = JsonObjectRequest(Request.Method.GET, url, null, Response.Listener<JSONObject> { response ->
             try {
                 for (i in 0..response.getJSONArray("list").length() - 1) {
-                    hourlyWeatherArrayList!!.add(HourlyWeather(response.getJSONArray("list").getJSONObject(i)))
+                    hourlyWeatherArrayList?.add(HourlyWeather(response.getJSONArray("list").getJSONObject(i)))
                 }
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
 
-            mAdapter!!.notifyDataSetChanged()
+            mAdapter?.notifyDataSetChanged()
             //response.get
         }, Response.ErrorListener {
             // TODO Auto-generated method stub
@@ -105,8 +105,8 @@ class MainActivity : Activity() {
         val jsObjRequest = JsonObjectRequest(Request.Method.GET, url, null, Response.Listener<JSONObject> { response ->
             Log.d(TAG, "onResponse: " + response.toString())
             try {
-                weather!!.text = response.getJSONArray("weather").getJSONObject(0).getString("description")
-                temperature!!.text = response.getJSONObject("main").getDouble("temp_min").toString() + " C° - " + response.getJSONObject("main").getDouble("temp_max") + " C°"
+                weather?.text = response.getJSONArray("weather").getJSONObject(0).getString("description")
+                temperature?.text = response.getJSONObject("main").getDouble("temp_min").toString() + " C° - " + response.getJSONObject("main").getDouble("temp_max") + " C°"
                 Picasso.with(applicationContext).load("http://openweathermap.org/img/w/" + response.getJSONArray("weather").getJSONObject(0).getString("icon") + ".png").into(icon)
             } catch (e: JSONException) {
                 e.printStackTrace()
