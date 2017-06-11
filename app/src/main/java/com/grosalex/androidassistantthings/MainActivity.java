@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -34,6 +35,7 @@ public class MainActivity extends Activity {
     private LinearLayoutManager mLayoutManager;
     private ImageView icon;
     private Handler mHandler;
+    private TextClock textClock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,10 @@ public class MainActivity extends Activity {
         icon= (ImageView)findViewById(R.id.weather_icon);
         hourlyRecycler = (RecyclerView)findViewById(R.id.hourly_recycler);
         hourlyRecycler.setHasFixedSize(true);
+
+        textClock = (TextClock) findViewById(R.id.textClock);
+        textClock.setFormat24Hour("E d MMM HH:mm");
+        textClock.setFormat12Hour(null);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
@@ -68,6 +74,7 @@ public class MainActivity extends Activity {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                hourlyWeatherArrayList.clear();
                 fetchTodaysWeather();
                 fetchNextDaysWeather();
                 update();
