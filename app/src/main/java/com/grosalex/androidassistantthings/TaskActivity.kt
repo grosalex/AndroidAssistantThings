@@ -13,10 +13,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class TaskActivity : Activity(), View.OnClickListener {
-    private var RC_ADD_TASK: Int = 1001
-    private var TASK_PREFS:String = "TASK_LIST"
-    private var TASKS: String = "TASKS"
-
     override fun onClick(v: View?) {
 
         when(v?.id){
@@ -63,13 +59,10 @@ class TaskActivity : Activity(), View.OnClickListener {
 
     private fun loadTasks() {
         var gson = Gson()
-        var sharedPrefs = getSharedPreferences(TASK_PREFS,0)
-
+        var s = taskList(this)
         val turnsType = object : TypeToken<ArrayList<Task>>() {}.type
 
-        var s : String = sharedPrefs.getString(TASKS,"")
         if(s.isNullOrEmpty())return
-        Log.d("LISTLOAD",s)
         taskArrayList = gson.fromJson(s,turnsType)
         taskAdapter?.datas= taskArrayList as ArrayList<Task>
         taskAdapter?.notifyDataSetChanged()

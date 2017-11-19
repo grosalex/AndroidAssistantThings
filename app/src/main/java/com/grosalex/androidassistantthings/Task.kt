@@ -10,6 +10,8 @@ import java.util.*
 class Task (@SerializedName("title") var title : String, @SerializedName("last_time_done") var lastTimeDone : Date, @SerializedName("recurrence") var recurrence: Long,@SerializedName("doer") var doer : Boolean){
     @SerializedName("dueDate")
     var dueDate :Date = Date()
+    public val TASK_PREFS:String = "TASK_LIST"
+
     fun hasBeenDone() {
         doer = ! doer
         lastTimeDone = Date()

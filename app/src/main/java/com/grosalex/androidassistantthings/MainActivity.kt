@@ -23,6 +23,9 @@ import com.squareup.picasso.Picasso
 
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.*
+import java.net.ServerSocket
+import java.net.UnknownHostException
 
 import java.util.ArrayList
 
@@ -39,7 +42,7 @@ class MainActivity : Activity(), View.OnClickListener {
     private var icon: ImageView? = null
     private var mHandler: Handler? = null
     private var textClock: TextClock? = null
-    private var ibHome : ImageButton? = null
+    private var ibHome: ImageButton? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,8 +76,37 @@ class MainActivity : Activity(), View.OnClickListener {
         update()
 
         (ibHome as ImageButton).setOnClickListener(this)
-    }
 
+        var t = Thread(Runnable {
+            try {
+                var end = false;
+                var askListServerSocket = ServerSocket(12345);
+                while (!end) {
+                    //Server is waiting for client here, if needed
+                    var s = askListServerSocket.accept();
+
+                    // var input = BufferedReader( InputStreamReader(s.getInputStream()));
+                    //var st = input.readLine();
+                    val out = s.getOutputStream()
+                    var outToServer = DataOutputStream(s.getOutputStream());
+                    outToServer.writeBytes( taskList(this)+ '\n');
+
+                    Log.d("TcpExample", "Send to client: ");
+                    s.close();
+                }
+                askListServerSocket.close();
+
+
+            } catch (e: UnknownHostException) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (e: IOException) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        })
+        t.start()
+    }
 
     private fun update() {
         mHandler?.postDelayed({
@@ -136,7 +168,7 @@ class MainActivity : Activity(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        val   intent = Intent(this,TaskActivity::class.java)
+        val intent = Intent(this, TaskActivity::class.java)
         startActivity(intent)
 
     }

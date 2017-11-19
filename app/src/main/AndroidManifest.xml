@@ -29,7 +29,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".TaskActivity" />
-        <activity android:name=".AddTaskActivity"></activity>
+        <activity android:name=".AddTaskActivity" />
+
+        <service
+            android:name=".SocketService"
+            android:enabled="true"
+            android:exported="false"></service>
     </application>
 
 </manifest>
